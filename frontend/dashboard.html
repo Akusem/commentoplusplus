@@ -412,6 +412,20 @@
                     </div>
                   </div>
 
+
+                  <div class="question">
+                    <div class="title">
+                      Labels Options
+                    </div>
+                    <div class="answer">
+                      <div class="row no-border commento-round-check">
+                        <input type="checkbox" v-model="domains[cd].allowLabels" id="allow-labels">
+                        <label for="allow-labels">Allow labels</label>
+                      </div>
+                    </div>
+                  </div>
+
+
                   <div class="center">
                     <button id="save-general-button" onclick="window.commento.generalSaveHandler()" class="button">Save Changes</button>
                   </div>
