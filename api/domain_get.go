@@ -1,7 +1,5 @@
 package main
 
-import ()
-
 var domainsRowColumns = `
 	domains.domain,
 	domains.ownerHex,
@@ -22,7 +20,8 @@ var domainsRowColumns = `
 	domains.ssoProvider,
 	domains.ssoSecret,
 	domains.ssoUrl,
-	domains.defaultSortPolicy
+	domains.defaultSortPolicy,
+	domains.allowLabels
 `
 
 func domainsRowScan(s sqlScanner, d *domain) error {
@@ -47,6 +46,7 @@ func domainsRowScan(s sqlScanner, d *domain) error {
 		&d.SsoSecret,
 		&d.SsoUrl,
 		&d.DefaultSortPolicy,
+		&d.AllowLabels,
 	)
 }
 
