@@ -45,17 +45,19 @@
   };
 
   global.openLabelCreator = function() {
+    $("#add-new-label").hide()
     $("#label-creator").show()
   }
 
   global.closeLabelCreator = function() {
     $("#label-creator").hide()
+    $("#add-new-label").show()
   }
 
   global.setAllLabels = function() {
     // Get the list of labels already created if labels are allowed
     var data = global.dashboard.$data;
-    
+
     if (data.domains[data.cd].allowLabels) {
       var json = {
         "ownerToken": global.cookieGet("commentoOwnerToken"),
@@ -66,7 +68,7 @@
           global.globalErrorShow(resp.message);
           return
         }
-        
+
         Vue.set(data.domains[data.cd], "labelsAll", resp.labels)
       });
     }
