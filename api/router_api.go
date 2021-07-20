@@ -73,6 +73,8 @@ func apiRouterInit(router *mux.Router) error {
 
 	router.HandleFunc("/api/page/update", pageUpdateHandler).Methods("POST")
 
+	router.HandleFunc("/api/label/owner/listAll", labelListAllHandler).Methods("POST")
+
 	hub = newHub()
 	go hub.run()
 	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
