@@ -42,4 +42,12 @@
     }
   };
 
+  global.openLabelCreator = function() {
+    $("#label-creator").show()
+  }
+
+  global.closeLabelCreator = function() {
+    $("#label-creator").hide()
+  }
+
 } (window.commento, document));
