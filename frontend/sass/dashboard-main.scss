@@ -833,7 +833,7 @@ code {
   position: relative;
   padding: 8px 16px 8px 16px;
   border: 1px solid $gray-2;
-  margin: 8px;
+  margin: 8px 0;
   // min doesn't work without calc in sass (see #2815 of node-sass)
   width: calc(min(100%, 300px));
 
