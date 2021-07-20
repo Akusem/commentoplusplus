@@ -828,3 +828,34 @@ code {
   font-family: monospace;
   font-size: 13px;
 }
+
+.label-creator {
+  position: relative;
+  padding: 8px 16px 8px 16px;
+  border: 1px solid $gray-2;
+  margin: 8px;
+  // min doesn't work without calc in sass (see #2815 of node-sass)
+  width: calc(min(100%, 300px));
+
+  .right-top {
+    position: absolute;
+    top: 1.5em;
+    right: 1.5em;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  color: $gray-5;
+  font-weight: bold;
+}
+
+.color-picker {
+  margin-bottom: 16px; 
+}

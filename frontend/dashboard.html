@@ -420,7 +420,31 @@
                     <div class="answer">
                       <div class="row no-border commento-round-check">
                         <input type="checkbox" v-model="domains[cd].allowLabels" id="allow-labels">
-                        <label for="allow-labels">Allow labels</label>
+                        <label for="allow-labels">Allow comments labels</label>
+                      </div>
+                      <div class="row no-border" v-if="domains[cd].allowLabels">
+                        <button class="button" id="add-new-label" v-on:click="window.commento.openLabelCreator()">
+                          Add new Labels
+                        </button>
+                        <div class="label-creator hidden" id="label-creator">
+                          <div class="left">
+                            <div class="title">Label Creator</div>
+                            <div class="row">
+                              <label for="new-label-name" class="label">
+                                Label Name
+                              </label>
+                              <input class="input gray-input" type="text" name="new-label-name" id="new-label-name">
+                            </div>
+                            <div class="color-picker">
+                              <label class="label" for="new-label-color">Label Color:</label>
+                              <input class="input" type="color" id="new-label-color" name="new-label-color" value="#44ad8e"> 
+                            </div>
+                          </div>
+                          <div class="center">
+                            <button class="button center">Create Label</button>
+                          </div>
+                          <span class="right-top clickable" id="close-label-creator" @click="window.commento.closeLabelCreator()">X</span>
+                        </div>
                       </div>
                     </div>
                   </div>
