@@ -74,6 +74,7 @@ func apiRouterInit(router *mux.Router) error {
 	router.HandleFunc("/api/page/update", pageUpdateHandler).Methods("POST")
 
 	router.HandleFunc("/api/label/new", labelNewHandler).Methods("POST")
+	router.HandleFunc("/api/label/delete", labelDeleteHandler).Methods("POST")
 	router.HandleFunc("/api/label/owner/listAll", labelListAllHandler).Methods("POST")
 
 	hub = newHub()
