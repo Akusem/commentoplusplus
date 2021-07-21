@@ -13,6 +13,7 @@ func labelListAll(domain string) ([]label, error) {
 	statement := `
 		SELECT
 			labelHex,
+			name,
 			color,
 			domain
 		FROM labels
@@ -36,6 +37,7 @@ func labelListAll(domain string) ([]label, error) {
 		l := label{}
 		if err = rows.Scan(
 			&l.LabelHex,
+			&l.Name,
 			&l.Color,
 			&l.Domain,
 		); err != nil {
