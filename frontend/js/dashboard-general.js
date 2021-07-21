@@ -74,4 +74,24 @@
     }
   }
 
+  global.createLabel = function() {
+    var data = global.dashboard.$data;
+    var json = {
+      "ownerToken": global.cookieGet("commentoOwnerToken"),
+      "domain": data.domains[data.cd].domain,
+      "name": data.domains[data.cd].newLabelName,
+      "color": data.domains[data.cd].newLabelColor
+    };
+
+    global.post(global.origin + "/api/label/new", json, function(resp) {
+      if (!resp.success) {
+        global.globalErrorShow(resp.message);
+        return
+      }
+
+      global.closeLabelCreator();
+      global.setAllLabels();
+    });
+  }
+
 } (window.commento, document));
