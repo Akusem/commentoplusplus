@@ -93,6 +93,11 @@
         resp.domains[i].commentsLast30Days = global.numberify(0);
 
         resp.domains[i].allowAnonymous = !resp.domains[i].requireIdentification;
+
+        // Define the default fields to be used by label creator in dashboard > general
+        resp.domains[i].newLabelName = "";
+        resp.domains[i].newLabelColor = "#44ad8e";
+
         
         for (var j = 0; j < resp.domains[i].moderators.length; j++) {
           resp.domains[i].moderators[j].timeAgo = global.timeSince(
