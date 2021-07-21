@@ -433,18 +433,21 @@
                               <label for="new-label-name" class="label">
                                 Label Name
                               </label>
-                              <input class="input gray-input" type="text" name="new-label-name" id="new-label-name">
+                              <input class="input gray-input" v-model="domains[cd].newLabelName" type="text" name="new-label-name" id="new-label-name">
                             </div>
                             <div class="color-picker">
                               <label class="label" for="new-label-color">Label Color:</label>
-                              <input class="input" type="color" id="new-label-color" name="new-label-color" value="#44ad8e"> 
+                              <input class="input" type="color" v-model="domains[cd].newLabelColor" id="new-label-color" name="new-label-color"> 
                             </div>
                           </div>
                           <div class="center">
-                            <button class="button center">Create Label</button>
+                            <button class="button center" v-on:click="window.commento.createLabel()">Create Label</button>
                           </div>
-                          <span class="right-top clickable" id="close-label-creator" @click="window.commento.closeLabelCreator()">X</span>
+                          <span class="right-top clickable" id="close-label-creator" v-on:click="window.commento.closeLabelCreator()">X</span>
                         </div>
+                      </div>
+                      <div class="row no-border" v-for="label in domains[cd].labelsAll" v-if="domains[cd].allowLabels">
+                        <div v-bind:style="{color: label.color}">{{ label.name }}</div>
                       </div>
                     </div>
                   </div>
