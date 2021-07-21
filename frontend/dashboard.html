@@ -447,7 +447,7 @@
                         </div>
                       </div>
                       <div class="row no-border" v-for="label in domains[cd].labelsAll" v-if="domains[cd].allowLabels">
-                        <div v-bind:style="{color: label.color}">{{ label.name }}</div>
+                        <div class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</div>
                       </div>
                     </div>
                   </div>

@@ -859,3 +859,16 @@ code {
 .color-picker {
   margin-bottom: 16px; 
 }
+
+.comment-label {
+  text-transform: uppercase;
+  display: inline-block;
+  background: #37b24d;
+  color: white;
+  margin-left: 8px;
+  padding: 2px 6px 2px 6px;
+  border-radius: 100px;
+  line-height: 17px;
+  font-weight: bold;
+  font-size: 0.8em;
+}
