@@ -448,6 +448,7 @@
                       </div>
                       <div class="row no-border" v-for="label in domains[cd].labelsAll" v-if="domains[cd].allowLabels">
                         <div class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</div>
+                        <span class="clickable" v-on:click="window.commento.deleteLabel(label.labelHex)">X</span>
                       </div>
                     </div>
                   </div>
