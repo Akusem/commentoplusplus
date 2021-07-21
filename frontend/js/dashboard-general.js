@@ -83,6 +83,11 @@
       "color": data.domains[data.cd].newLabelColor
     };
 
+    if (json.name === "" || json.color === "") {
+      global.globalErrorShow("Label Name missing");
+      return
+    }
+
     global.post(global.origin + "/api/label/new", json, function(resp) {
       if (!resp.success) {
         global.globalErrorShow(resp.message);
