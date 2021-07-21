@@ -99,4 +99,25 @@
     });
   }
 
+  global.deleteLabel = function(labelHex) {
+    var data = global.dashboard.$data
+    var json = {
+      "ownerToken": global.cookieGet("commentoOwnerToken"),
+      "domain": data.domains[data.cd].domain,
+      "labelHex": labelHex,
+    };
+
+    global.post(global.origin + "/api/label/delete", json, function(resp) {
+      if (!resp.success) {
+        global.globalErrorShow(resp.message);
+        return
+      }
+      // Reset label creator to default value
+      data.domains[data.cd].newLabelName = "";
+      data.domains[data.cd].newLabelColor = "#44ad8e";
+      // Reload all labels, new one included
+      global.setAllLabels();
+    });
+  }
+
 } (window.commento, document));
