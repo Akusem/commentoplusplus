@@ -193,6 +193,7 @@ func commentListHandler(w http.ResponseWriter, r *http.Request) {
 		"isModerator":           isModerator,
 		"defaultSortPolicy":     d.DefaultSortPolicy,
 		"attributes":            p,
+		"allowLabels":           d.AllowLabels,
 		"configuredOauths": map[string]bool{
 			"commento": d.CommentoProvider,
 			"google":   googleConfigured && d.GoogleProvider,
