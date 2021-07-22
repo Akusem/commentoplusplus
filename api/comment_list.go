@@ -173,6 +173,17 @@ func commentListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// By default an empty array
+	// If label are allowed, query all the labels linked with this domain.
+	labels := []label{}
+	if d.AllowLabels {
+		labels, err = labelListAll(d.Domain)
+		if err != nil {
+			bodyMarshal(w, response{"success": false, "message": err.Error()})
+			return
+		}
+	}
+
 	_commenters := map[string]commenter{}
 	for commenterHex, cr := range commenters {
 		if _, ok := modList[cr.Email]; ok {
@@ -194,6 +205,7 @@ func commentListHandler(w http.ResponseWriter, r *http.Request) {
 		"defaultSortPolicy":     d.DefaultSortPolicy,
 		"attributes":            p,
 		"allowLabels":           d.AllowLabels,
+		"labels":                labels,
 		"configuredOauths": map[string]bool{
 			"commento": d.CommentoProvider,
 			"google":   googleConfigured && d.GoogleProvider,
