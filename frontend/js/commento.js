@@ -56,6 +56,8 @@
   var ID_DOWNVOTE = "commento-comment-downvote-";
   var ID_APPROVE = "commento-comment-approve-";
   var ID_REMOVE = "commento-comment-remove-";
+  var ID_ADD_LABEL = "commento-comment-add-label";
+  var ID_LABEL_SELECTOR = "commento-comment-label-selector";
   var ID_STICKY = "commento-comment-sticky-";
   var ID_CHILDREN = "commento-comment-children-";
   var ID_CONTENTS = "commento-comment-contents-";
@@ -87,6 +89,8 @@
   var requireIdentification = true;
   var isModerator = false;
   var isFrozen = false;
+  var allowLabels = false;
+  var labels = [];
   //var chosenAnonymous = false;
   var isLocked = false;
   var stickyCommentHex = "none";
@@ -477,6 +481,7 @@
       }
 
       requireIdentification = resp.requireIdentification;
+      allowLabels = resp.allowLabels;
       isModerator = resp.isModerator;
       isFrozen = resp.isFrozen;
 
@@ -489,6 +494,7 @@
       }
 
       comments = resp.comments;
+      labels = resp.labels;
 
       if(!firstFetch) {
         // if a new comment added since page loaded, highlight it
@@ -1060,6 +1066,40 @@
     },
   };
 
+  function addLabelSelector(parentEl, comment) {
+    var selector = create("div");
+    var title = create("span");
+    var list = create("div");
+
+    selector.id = ID_LABEL_SELECTOR + comment.commentHex;
+    selector.title = i18n("label selector");
+    title.textContent = i18n("Selector");
+    
+    classAdd(selector, "option-labels-selector");
+    classAdd(title, "option-labels-selector-title");
+    
+    labels.forEach(function(labelInfo) {
+      var line = create("div");
+      var label = create("span");
+      var checkIcon = create("span");
+
+      label.textContent = labelInfo.name;
+      
+      classAdd(line, "option-labels-list-line");
+      classAdd(label, "label");
+      classAdd(checkIcon, "option-check");
+      attrSet(label, "style", "background: " + labelInfo.color);
+
+      append(line, label);
+      append(line, checkIcon);
+      append(list, line);
+    });
+    
+    append(parentEl, selector);
+    append(selector, title);
+    append(selector, list);
+  
+  }
 
   function commentsRecurse(parentMap, parentHex) {
     var cur = parentMap[parentHex];
@@ -1097,6 +1137,7 @@
       var downvote = create("button");
       var approve = create("button");
       var remove = create("button");
+      var addLabel = create("button");
       var sticky = create("button");
       var children = commentsRecurse(parentMap, comment.commentHex);
       var contents = create("div");
@@ -1125,6 +1166,7 @@
       downvote.id = ID_DOWNVOTE + comment.commentHex;
       approve.id = ID_APPROVE + comment.commentHex;
       remove.id = ID_REMOVE + comment.commentHex;
+      addLabel.id = ID_ADD_LABEL + comment.commentHex;
       sticky.id = ID_STICKY + comment.commentHex;
       if (children) {
         children.id = ID_CHILDREN + comment.commentHex;
@@ -1144,6 +1186,7 @@
       reply.title = i18n("Reply");
       approve.title = i18n("Approve");
       remove.title = i18n("Remove");
+      addLabel.title = i18n("Add label");
       if (stickyCommentHex === comment.commentHex) {
         if (isModerator) {
           sticky.title = i18n("Unsticky");
@@ -1231,6 +1274,8 @@
       classAdd(approve, "option-approve");
       classAdd(remove, "option-button");
       classAdd(remove, "option-remove");
+      classAdd(addLabel, "option-button");
+      classAdd(addLabel, "option-labels");
       classAdd(sticky, "option-button");
       if (stickyCommentHex === comment.commentHex) {
         classAdd(sticky, "option-unsticky");
@@ -1250,6 +1295,7 @@
       onclick(collapse, global.commentCollapse, comment.commentHex);
       onclick(approve, global.commentApprove, comment.commentHex);
       onclick(remove, global.commentDelete, comment.commentHex);
+      onclick(addLabel, alert, "add label test");
       onclick(sticky, global.commentSticky, comment.commentHex);
 
       var upDown = upDownOnclickSet(upvote, downvote, comment.commentHex, comment.direction);
@@ -1283,6 +1329,11 @@
 
       if (!comment.deleted && (isModerator || comment.commenterHex === selfHex)) {
         append(options, remove);
+      }
+
+      if (!comment.deleted && allowLabels && (isModerator || comment.commenterHex === selfHex)) {
+        append(options, addLabel);
+        addLabelSelector(options, comment);
       }
 
       if (isModerator && comment.state !== "approved") {
