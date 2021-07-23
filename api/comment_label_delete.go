@@ -11,8 +11,8 @@ func commentLabelDelete(commentHex string, labelHex string) error {
 
 	statement := `
 		DELETE FROM comments_labels
-		WHERE  commentHex = $1
-		   AND labelHex = $2;
+		WHERE  
+		   commentHex = $1 AND labelHex = $2;
 	`
 	_, err := db.Exec(statement, commentHex, labelHex)
 
