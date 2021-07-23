@@ -1117,6 +1117,9 @@
       classAdd(line, "option-labels-list-line");
       classAdd(label, "label");
       classAdd(checkIcon, "option-check");
+      if (!commentPossesLabel(comment, labelInfo.labelHex)) {
+        classAdd(checkIcon, "option-check-hidden")
+      }
       attrSet(label, "style", "background: " + labelInfo.color);
 
       append(line, label);
