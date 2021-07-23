@@ -94,6 +94,11 @@ func commentList(commenterHex string, domain string, path string, includeUnappro
 			c.State = ""
 		}
 
+		c.LabelsHex, err = commentGetLabelsHex(c.CommentHex)
+		if err != nil {
+			logger.Errorf("cannot retrieve comment's labelHex %v", err)
+		}
+
 		comments = append(comments, c)
 
 		if _, ok := commenters[c.CommenterHex]; !ok {
