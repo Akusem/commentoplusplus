@@ -57,6 +57,7 @@
   var ID_APPROVE = "commento-comment-approve-";
   var ID_REMOVE = "commento-comment-remove-";
   var ID_ADD_LABEL = "commento-comment-add-label";
+  var ID_LABEL_CHECK = "commento-comment-label-check";
   var ID_LABEL_SELECTOR = "commento-comment-label-selector";
   var ID_STICKY = "commento-comment-sticky-";
   var ID_CHILDREN = "commento-comment-children-";
@@ -1082,11 +1083,58 @@
     return comment.labelsHex.indexOf(labelHex) >= 0;
   }
 
+  function commentAddLabel(comment, labelHex) {
+    var json = {
+      "commenterToken": commenterTokenGet(),
+      "commentHex": comment.commentHex,
+      "labelHex": labelHex
+    }
+    // Save label adding in db through API
+    post(origin + "/api/comment/label/new", json, function(resp) {
+      if (!resp.success) {
+        errorShow(resp.message);
+        return
+      } else {
+        errorHide();
+      }
+      // Save change locally in js
+      comment.labelsHex.push(labelHex);
+      // Display icon
+      var checkIcon = $(ID_LABEL_CHECK + labelHex + comment.commentHex);
+      classRemove(checkIcon, "option-check-hidden");
+    });
+  }
+
+  function commentRemoveLabel(comment, labelHex) {
+    var json = {
+      "commenterToken": commenterTokenGet(),
+      "commentHex": comment.commentHex,
+      "labelHex": labelHex
+    }
+    // Save label removal in db through API
+    post(origin + "/api/comment/label/delete", json, function(resp) {
+      if (!resp.success) {
+        errorShow(resp.message);
+        return
+      } else {
+        errorHide();
+      }
+      // Remove locally in js
+      var index = comment.labelsHex.indexOf(labelHex);
+      if (index !== -1) {
+        comment.labelsHex.splice(index, 1);
+      }
+      // Hide icon
+      var checkIcon = $(ID_LABEL_CHECK + labelHex + comment.commentHex);
+      classAdd(checkIcon, "option-check-hidden");
+    });
+  }
+
   global.toggleLabel = function(info) {
     if (commentPossesLabel(info.comment, info.labelHex)) {
-      console.log("Already have label");
+      commentRemoveLabel(info.comment, info.labelHex);
     } else {
-      console.log("Doesn't have label");
+      commentAddLabel(info.comment, info.labelHex);
     }
   }
 
@@ -1097,7 +1145,7 @@
 
     selector.id = ID_LABEL_SELECTOR + comment.commentHex;
     selector.title = i18n("label selector");
-    title.textContent = i18n("Selector");
+    title.textContent = i18n("Labels");
     
     classAdd(selector, "option-labels-selector");
     if (!isLabelSelectorOpen(comment.commentHex)) {
@@ -1111,6 +1159,7 @@
       var checkIcon = create("span");
 
       label.textContent = labelInfo.name;
+      checkIcon.id = ID_LABEL_CHECK + labelInfo.labelHex + comment.commentHex;
 
       onclick(line, global.toggleLabel, {"comment": comment, "labelHex": labelInfo.labelHex});
 
