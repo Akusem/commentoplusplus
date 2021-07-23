@@ -91,6 +91,9 @@
   var isFrozen = false;
   var allowLabels = false;
   var labels = [];
+  // On each comment refresh the label selector is closed automaticaly
+  // This store the opened label selector id, to keep them open.
+  var labelSelectorOpen = []; 
   //var chosenAnonymous = false;
   var isLocked = false;
   var stickyCommentHex = "none";
@@ -1066,6 +1069,15 @@
     },
   };
 
+  function isLabelSelectorOpen(id) {
+    for (var i = 0; i < labelSelectorOpen.length; i++) {
+      if (labelSelectorOpen[i] === id) {
+        return true
+      }
+    }
+    return false
+  }
+
   function addLabelSelector(parentEl, comment) {
     var selector = create("div");
     var title = create("span");
@@ -1076,6 +1088,9 @@
     title.textContent = i18n("Selector");
     
     classAdd(selector, "option-labels-selector");
+    if (!isLabelSelectorOpen(comment.commentHex)) {
+      classAdd(selector, "hidden");
+    }
     classAdd(title, "option-labels-selector-title");
     
     labels.forEach(function(labelInfo) {
@@ -1295,7 +1310,7 @@
       onclick(collapse, global.commentCollapse, comment.commentHex);
       onclick(approve, global.commentApprove, comment.commentHex);
       onclick(remove, global.commentDelete, comment.commentHex);
-      onclick(addLabel, alert, "add label test");
+      onclick(addLabel, global.toggleLabelSelector, comment.commentHex);
       onclick(sticky, global.commentSticky, comment.commentHex);
 
       var upDown = upDownOnclickSet(upvote, downvote, comment.commentHex, comment.direction);
@@ -1438,6 +1453,29 @@
       card.parentNode.removeChild(card)
       delete commentsMap[commentHex]
     });
+  }
+
+  function addToLabelSelectorOpen(id) {
+    labelSelectorOpen.push(id);
+  }
+
+
+  function removeToLabelSelectorOpen(id) {
+    var index = labelSelectorOpen.indexOf(id);
+    if (index !== -1) {
+      labelSelectorOpen.splice(index, 1);
+    }
+  }
+
+  global.toggleLabelSelector = function(commentHex) {
+    var selector = $(ID_LABEL_SELECTOR + commentHex);
+    if (selector.className.includes("hidden")) {
+      addToLabelSelectorOpen(commentHex);
+      classRemove(selector, "hidden");
+    } else {
+      removeToLabelSelectorOpen(commentHex);
+      classAdd(selector, "hidden");
+    }
   }
 
 
