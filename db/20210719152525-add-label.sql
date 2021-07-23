@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS labels (
 -- Many to many relationship through comments and labels
 CREATE TABLE IF NOT EXISTS comments_labels (
   commentHex             TEXT         REFERENCES comments (commentHex) ON UPDATE CASCADE,
-  labelHex               TEXT         REFERENCES labels (labelHex)    ON UPDATE CASCADE,
+  labelHex               TEXT         REFERENCES labels   (labelHex)   ON UPDATE CASCADE,
   CONSTRAINT comments_labels_pkey     PRIMARY KEY (commentHex, labelHex)
 );
 
