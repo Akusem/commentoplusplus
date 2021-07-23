@@ -130,6 +130,8 @@
 .commento-option-labels-selector {
   position: absolute;
   border: 1px solid #f0f0f0;
+  height: 150px;
+  overflow-y: hidden;
 }
 
 .commento-option-labels-selector-title {
@@ -138,6 +140,11 @@
   border-bottom: 1px solid #f0f0f0;
   padding: 6px 6px 6px 6px;
   text-align: center;
+}
+
+.commento-option-labels-list {
+  height: 114px;
+  overflow-y: scroll;
 }
 
 .commento-option-labels-list-line {

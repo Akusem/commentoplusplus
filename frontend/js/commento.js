@@ -1162,6 +1162,7 @@
 
       onclick(line, global.toggleLabel, {"comment": comment, "labelHex": labelInfo.labelHex});
 
+      classAdd(list, "option-labels-list");
       classAdd(line, "option-labels-list-line");
       classAdd(label, "label");
       classAdd(checkIcon, "option-check");
