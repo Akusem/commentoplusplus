@@ -1070,15 +1070,6 @@
     },
   };
 
-  function isLabelSelectorOpen(id) {
-    for (var i = 0; i < labelSelectorOpen.length; i++) {
-      if (labelSelectorOpen[i] === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   function commentPossesLabel(comment, labelHex) {
     return comment.labelsHex.indexOf(labelHex) >= 0;
   }
@@ -1136,6 +1127,15 @@
     } else {
       commentAddLabel(info.comment, info.labelHex);
     }
+  }
+
+  function isLabelSelectorOpen(id) {
+    for (var i = 0; i < labelSelectorOpen.length; i++) {
+      if (labelSelectorOpen[i] === id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   function addLabelSelector(parentEl, comment) {
