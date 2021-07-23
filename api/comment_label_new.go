@@ -72,5 +72,4 @@ func commentLabelNewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	bodyMarshal(w, response{"success": true})
-
 }
