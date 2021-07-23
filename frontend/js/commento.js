@@ -1144,7 +1144,6 @@
     var list = create("div");
 
     selector.id = ID_LABEL_SELECTOR + comment.commentHex;
-    selector.title = i18n("label selector");
     title.textContent = i18n("Labels");
     
     classAdd(selector, "option-labels-selector");
