@@ -17,4 +17,5 @@ type comment struct {
 	CreationDate time.Time `json:"creationDate"`
 	Direction    int       `json:"direction"`
 	Deleted      bool      `json:"deleted"`
+	LabelsHex    []string  `json:"labelsHex"`
 }
