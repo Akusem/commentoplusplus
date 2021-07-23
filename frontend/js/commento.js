@@ -1072,10 +1072,22 @@
   function isLabelSelectorOpen(id) {
     for (var i = 0; i < labelSelectorOpen.length; i++) {
       if (labelSelectorOpen[i] === id) {
-        return true
+        return true;
       }
     }
-    return false
+    return false;
+  }
+
+  function commentPossesLabel(comment, labelHex) {
+    return comment.labelsHex.indexOf(labelHex) >= 0;
+  }
+
+  global.toggleLabel = function(info) {
+    if (commentPossesLabel(info.comment, info.labelHex)) {
+      console.log("Already have label");
+    } else {
+      console.log("Doesn't have label");
+    }
   }
 
   function addLabelSelector(parentEl, comment) {
@@ -1099,7 +1111,9 @@
       var checkIcon = create("span");
 
       label.textContent = labelInfo.name;
-      
+
+      onclick(line, global.toggleLabel, {"comment": comment, "labelHex": labelInfo.labelHex});
+
       classAdd(line, "option-labels-list-line");
       classAdd(label, "label");
       classAdd(checkIcon, "option-check");
@@ -1113,7 +1127,6 @@
     append(parentEl, selector);
     append(selector, title);
     append(selector, list);
-  
   }
 
   function commentsRecurse(parentMap, parentHex) {
@@ -1201,7 +1214,7 @@
       reply.title = i18n("Reply");
       approve.title = i18n("Approve");
       remove.title = i18n("Remove");
-      addLabel.title = i18n("Add label");
+      addLabel.title = i18n("Labels selector");
       if (stickyCommentHex === comment.commentHex) {
         if (isModerator) {
           sticky.title = i18n("Unsticky");
