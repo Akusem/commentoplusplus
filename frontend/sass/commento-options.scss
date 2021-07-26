@@ -132,6 +132,8 @@
   border: 1px solid #f0f0f0;
   height: 150px;
   overflow-y: hidden;
+  z-index: 3;
+  background: white;
 }
 
 .commento-option-labels-selector-title {
@@ -154,7 +156,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: white;
 }
 
 .commento-option-labels-list-line:hover {
@@ -169,4 +170,18 @@
 
 .commento-option-button:focus {
   outline: none;
+}
+
+.commento-option-label-container {
+  position: absolute;
+  // Each of the 6 options icons are around 30px width,
+  // place the label-container just after 
+  // !important override the automatic inline right 
+  // (don't know how to disable it) 
+  right: calc(32px * 6) !important;
+  display: flex;
+
+  .commento-label {
+    margin: 10px 2px;
+  }
 }
