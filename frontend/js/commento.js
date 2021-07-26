@@ -1151,7 +1151,7 @@
       classAdd(selector, "hidden");
     }
     classAdd(title, "option-labels-selector-title");
-    
+
     labels.forEach(function(labelInfo) {
       var line = create("div");
       var label = create("span");
@@ -1175,7 +1175,7 @@
       append(line, checkIcon);
       append(list, line);
     });
-    
+
     append(parentEl, selector);
     append(selector, title);
     append(selector, list);
@@ -1217,7 +1217,7 @@
       var downvote = create("button");
       var approve = create("button");
       var remove = create("button");
-      var addLabel = create("button");
+      var labelToggle = create("button");
       var sticky = create("button");
       var children = commentsRecurse(parentMap, comment.commentHex);
       var contents = create("div");
@@ -1246,7 +1246,7 @@
       downvote.id = ID_DOWNVOTE + comment.commentHex;
       approve.id = ID_APPROVE + comment.commentHex;
       remove.id = ID_REMOVE + comment.commentHex;
-      addLabel.id = ID_ADD_LABEL + comment.commentHex;
+      labelToggle.id = ID_ADD_LABEL + comment.commentHex;
       sticky.id = ID_STICKY + comment.commentHex;
       if (children) {
         children.id = ID_CHILDREN + comment.commentHex;
@@ -1266,7 +1266,7 @@
       reply.title = i18n("Reply");
       approve.title = i18n("Approve");
       remove.title = i18n("Remove");
-      addLabel.title = i18n("Labels selector");
+      labelToggle.title = i18n("Labels selector");
       if (stickyCommentHex === comment.commentHex) {
         if (isModerator) {
           sticky.title = i18n("Unsticky");
@@ -1354,8 +1354,8 @@
       classAdd(approve, "option-approve");
       classAdd(remove, "option-button");
       classAdd(remove, "option-remove");
-      classAdd(addLabel, "option-button");
-      classAdd(addLabel, "option-labels");
+      classAdd(labelToggle, "option-button");
+      classAdd(labelToggle, "option-labels");
       classAdd(sticky, "option-button");
       if (stickyCommentHex === comment.commentHex) {
         classAdd(sticky, "option-unsticky");
@@ -1375,7 +1375,7 @@
       onclick(collapse, global.commentCollapse, comment.commentHex);
       onclick(approve, global.commentApprove, comment.commentHex);
       onclick(remove, global.commentDelete, comment.commentHex);
-      onclick(addLabel, global.toggleLabelSelector, comment.commentHex);
+      onclick(labelToggle, global.toggleLabelSelector, comment.commentHex);
       onclick(sticky, global.commentSticky, comment.commentHex);
 
       var upDown = upDownOnclickSet(upvote, downvote, comment.commentHex, comment.direction);
@@ -1412,7 +1412,7 @@
       }
 
       if (!comment.deleted && allowLabels && (isModerator || comment.commenterHex === selfHex)) {
-        append(options, addLabel);
+        append(options, labelToggle);
         addLabelSelector(options, comment);
       }
 
