@@ -56,8 +56,9 @@
   var ID_DOWNVOTE = "commento-comment-downvote-";
   var ID_APPROVE = "commento-comment-approve-";
   var ID_REMOVE = "commento-comment-remove-";
-  var ID_ADD_LABEL = "commento-comment-add-label";
+  var ID_LABEL = "commento-comment-label";
   var ID_LABEL_CHECK = "commento-comment-label-check";
+  var ID_LABEL_TOGGLE = "commento-comment-label-toggle";
   var ID_LABEL_SELECTOR = "commento-comment-label-selector";
   var ID_LABEL_CONTAINER = "commento-comment-label-container";
   var ID_STICKY = "commento-comment-sticky-";
@@ -1075,6 +1076,21 @@
     return comment.labelsHex.indexOf(labelHex) >= 0;
   }
 
+  function getLabelInfo(labelHex) {
+    return labels.find(function(label) {
+      return label.labelHex === labelHex
+    });
+  }
+
+  function createLabel(parentEl, labelInfo, commentHex) {
+    var label = create("div");
+    classAdd(label, "label");
+    label.id = ID_LABEL + labelInfo.labelHex + commentHex
+    label.textContent = labelInfo.name;
+    attrSet(label, "style", "background: " + labelInfo.color);
+    append(parentEl, label);
+  }
+
   function commentAddLabel(comment, labelHex) {
     var json = {
       "commenterToken": commenterTokenGet(),
@@ -1094,6 +1110,10 @@
       // Display icon
       var checkIcon = $(ID_LABEL_CHECK + labelHex + comment.commentHex);
       classRemove(checkIcon, "option-check-hidden");
+      // Add label
+      var labelInfo = getLabelInfo(labelHex);
+      var labelsContainer = $(ID_LABEL_CONTAINER + comment.commentHex)
+      createLabel(labelsContainer, labelInfo, comment.commentHex)
     });
   }
 
@@ -1119,6 +1139,9 @@
       // Hide icon
       var checkIcon = $(ID_LABEL_CHECK + labelHex + comment.commentHex);
       classAdd(checkIcon, "option-check-hidden");
+      // Remove label
+      var label = $(ID_LABEL + labelHex + comment.commentHex);
+      remove(label);
     });
   }
 
@@ -1191,11 +1214,7 @@
       if (!commentHasLabel(comment, labelInfo.labelHex)) {
         return;
       }
-      var label = create("div");
-      classAdd(label, "label");
-      label.textContent = labelInfo.name;
-      attrSet(label, "style", "background: " + labelInfo.color);
-      append(labelsContainer, label);
+      createLabel(labelsContainer, labelInfo, comment.commentHex)
     });
 
     append(parentEl, labelsContainer);
@@ -1266,7 +1285,7 @@
       downvote.id = ID_DOWNVOTE + comment.commentHex;
       approve.id = ID_APPROVE + comment.commentHex;
       remove.id = ID_REMOVE + comment.commentHex;
-      labelToggle.id = ID_ADD_LABEL + comment.commentHex;
+      labelToggle.id = ID_LABEL_TOGGLE + comment.commentHex;
       sticky.id = ID_STICKY + comment.commentHex;
       if (children) {
         children.id = ID_CHILDREN + comment.commentHex;
