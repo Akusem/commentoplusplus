@@ -59,6 +59,7 @@
   var ID_ADD_LABEL = "commento-comment-add-label";
   var ID_LABEL_CHECK = "commento-comment-label-check";
   var ID_LABEL_SELECTOR = "commento-comment-label-selector";
+  var ID_LABEL_CONTAINER = "commento-comment-label-container";
   var ID_STICKY = "commento-comment-sticky-";
   var ID_CHILDREN = "commento-comment-children-";
   var ID_CONTENTS = "commento-comment-contents-";
@@ -1070,7 +1071,7 @@
     },
   };
 
-  function commentPossesLabel(comment, labelHex) {
+  function commentHasLabel(comment, labelHex) {
     return comment.labelsHex.indexOf(labelHex) >= 0;
   }
 
@@ -1122,7 +1123,7 @@
   }
 
   global.toggleLabel = function(info) {
-    if (commentPossesLabel(info.comment, info.labelHex)) {
+    if (commentHasLabel(info.comment, info.labelHex)) {
       commentRemoveLabel(info.comment, info.labelHex);
     } else {
       commentAddLabel(info.comment, info.labelHex);
@@ -1166,7 +1167,7 @@
       classAdd(line, "option-labels-list-line");
       classAdd(label, "label");
       classAdd(checkIcon, "option-check");
-      if (!commentPossesLabel(comment, labelInfo.labelHex)) {
+      if (!commentHasLabel(comment, labelInfo.labelHex)) {
         classAdd(checkIcon, "option-check-hidden")
       }
       attrSet(label, "style", "background: " + labelInfo.color);
@@ -1179,6 +1180,25 @@
     append(parentEl, selector);
     append(selector, title);
     append(selector, list);
+  }
+
+  function addLabels(parentEl, comment) {
+    var labelsContainer = create("div");
+    labelsContainer.id = ID_LABEL_CONTAINER + comment.commentHex;
+    classAdd(labelsContainer, "option-label-container");
+
+    labels.forEach(function(labelInfo) {
+      if (!commentHasLabel(comment, labelInfo.labelHex)) {
+        return;
+      }
+      var label = create("div");
+      classAdd(label, "label");
+      label.textContent = labelInfo.name;
+      attrSet(label, "style", "background: " + labelInfo.color);
+      append(labelsContainer, label);
+    });
+
+    append(parentEl, labelsContainer);
   }
 
   function commentsRecurse(parentMap, parentHex) {
@@ -1414,6 +1434,7 @@
       if (!comment.deleted && allowLabels && (isModerator || comment.commenterHex === selfHex)) {
         append(options, labelToggle);
         addLabelSelector(options, comment);
+        addLabels(options, comment);
       }
 
       if (isModerator && comment.state !== "approved") {
