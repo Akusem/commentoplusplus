@@ -427,7 +427,7 @@
                           <div class="comment-labels-list-body">
                             <div class="comment-labels-list-line" v-for="label in domains[cd].labelsAll">
                               <span class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</span>
-                              <button class="button comment-delete-button" v-on:click="window.commento.openDeleteLabelModal(label.labelHex)">Delete</button>
+                              <button class="button label-delete-button" v-on:click="window.commento.openDeleteLabelModal(label.labelHex)">Delete</button>
                             </div>
                           </div>
                         </div>
