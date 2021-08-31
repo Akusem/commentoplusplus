@@ -427,7 +427,7 @@
                           <div class="comment-labels-list-body">
                             <div class="comment-labels-list-line" v-for="label in domains[cd].labelsAll">
                               <span class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</span>
-                              <button class="comment-delete-button button " v-on:click="window.commento.deleteLabel(label.labelHex)">Delete</button>
+                              <button class="button comment-delete-button" v-on:click="window.commento.openDeleteLabelModal(label.labelHex)">Delete</button>
                             </div>
                           </div>
                         </div>
@@ -642,6 +642,19 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-label-modal" class="modal-window">
+    <div class="inside">
+      <a href="#modal-close" title="Close" class="modal-close"></a>
+      <div class="modal-title">Delete label</div>
+      <div class="modal-subtitle">
+        Are you absolutely sure you want to delete this label ? This is not reversible, so please be certain.
+      </div>
+      <div class="modal-contents center">
+        <button class="button big-red-button" onclick="window.commento.deleteLabel()">Delete Label</button>
       </div>
     </div>
   </div>

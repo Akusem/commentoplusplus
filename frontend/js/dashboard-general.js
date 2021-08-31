@@ -99,12 +99,12 @@
     });
   }
 
-  global.deleteLabel = function(labelHex) {
+  global.deleteLabel = function() {
     var data = global.dashboard.$data
     var json = {
       "ownerToken": global.cookieGet("commentoOwnerToken"),
       "domain": data.domains[data.cd].domain,
-      "labelHex": labelHex,
+      "labelHex": data.domains[data.cd].labelHexToDelete,
     };
 
     global.post(global.origin + "/api/label/delete", json, function(resp) {
@@ -117,7 +117,15 @@
       data.domains[data.cd].newLabelColor = "#44ad8e";
       // Reload all labels, new one included
       global.setAllLabels();
+      // Close delete modal
+      document.location.hash = "#modal-close"
     });
+  }
+
+  global.openDeleteLabelModal = function(labelHex) {
+    var data = global.dashboard.$data
+    data.domains[data.cd].labelHexToDelete = labelHex
+    document.location.hash = "#delete-label-modal"
   }
 
 } (window.commento, document));

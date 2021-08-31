@@ -97,8 +97,9 @@
         // Define the default fields to be used by label creator in dashboard > general
         resp.domains[i].newLabelName = "";
         resp.domains[i].newLabelColor = "#44ad8e";
+        // Use to pass labelHex to delete modal
+        resp.domains[i].labelHexToDelete = "";
 
-        
         for (var j = 0; j < resp.domains[i].moderators.length; j++) {
           resp.domains[i].moderators[j].timeAgo = global.timeSince(
             Date.parse(resp.domains[i].moderators[j].addDate));
