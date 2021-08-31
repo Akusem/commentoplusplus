@@ -412,7 +412,6 @@
                     </div>
                   </div>
 
-
                   <div class="question">
                     <div class="title">
                       Labels Options
@@ -423,7 +422,16 @@
                         <label for="allow-labels">Allow comments labels</label>
                       </div>
                       <div class="row no-border" v-if="domains[cd].allowLabels">
-                        <button class="button" id="add-new-label" v-on:click="window.commento.openLabelCreator()">
+                        <div class="comment-labels-list"> 
+                          <span class="comment-labels-list-title">Labels</span>
+                          <div class="comment-labels-list-body">
+                            <div class="comment-labels-list-line" v-for="label in domains[cd].labelsAll">
+                              <span class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</span>
+                              <button class="comment-delete-button button " v-on:click="window.commento.deleteLabel(label.labelHex)">Delete</button>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="button" style="margin-left: 100px;" id="add-new-label" v-on:click="window.commento.openLabelCreator()">
                           Add new Labels
                         </button>
                         <div class="label-creator hidden" id="label-creator">
@@ -446,13 +454,8 @@
                           <span class="right-top clickable" id="close-label-creator" v-on:click="window.commento.closeLabelCreator()">X</span>
                         </div>
                       </div>
-                      <div class="row no-border" v-for="label in domains[cd].labelsAll" v-if="domains[cd].allowLabels">
-                        <div class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</div>
-                        <span class="clickable" v-on:click="window.commento.deleteLabel(label.labelHex)">X</span>
-                      </div>
                     </div>
                   </div>
-
 
                   <div class="center">
                     <button id="save-general-button" onclick="window.commento.generalSaveHandler()" class="button">Save Changes</button>
