@@ -869,3 +869,48 @@ code {
   font-weight: bold;
   font-size: 0.8em;
 }
+
+
+.comment-labels-list {
+  border: 1px solid #f0f0f0;
+  width: 300px;
+  overflow-y: hidden;
+  z-index: 3;
+  background: white;
+  margin-bottom: 1em;
+}
+
+.comment-labels-list-title {
+  display: block;
+  color: $gray-5;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px;
+  text-align: center;
+}
+
+.comment-labels-list-body {
+  padding-bottom: 5px;
+}
+
+.comment-labels-list-line {
+  transition: all 0.25s;
+  padding: 3px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.comment-labels-list-line:hover {
+  background: $gray-3;
+}
+
+.comment-delete-button {
+  color: $red-5;
+  margin: 0 1em;
+}
+
+.comment-delete-button:hover {
+  color: $white;
+  background-color: $red-7;
+}
