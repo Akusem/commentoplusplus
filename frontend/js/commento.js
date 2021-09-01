@@ -57,6 +57,7 @@
   var ID_APPROVE = "commento-comment-approve-";
   var ID_REMOVE = "commento-comment-remove-";
   var ID_LABEL = "commento-comment-label";
+  var ID_LABEL_BUTTON = "commento-label-button";
   var ID_LABEL_CHECK = "commento-comment-label-check";
   var ID_LABEL_TOGGLE = "commento-comment-label-toggle";
   var ID_LABEL_SELECTOR = "commento-comment-label-selector";
@@ -687,6 +688,7 @@
     var anonymousCheckbox = create("input");
     var anonymousCheckboxLabel = create("label");
     var submitButton = create("button");
+    var labelButton = create("button");
     var markdownButton = create("a");
     var guestNameContainer = create("div");
     var guestName = create("input");
@@ -699,6 +701,7 @@
     guestName.id = ID_GUEST_DETAILS_INPUT + id;
     anonymousCheckbox.id = ID_ANONYMOUS_CHECKBOX + id;
     submitButton.id = ID_SUBMIT_BUTTON + id;
+    labelButton.id = ID_LABEL_BUTTON + id;
     markdownButton.id = ID_MARKDOWN_BUTTON + id;
 
     classAdd(textareaContainer, "textarea-container");
@@ -706,6 +709,8 @@
     classAdd(anonymousCheckboxContainer, "anonymous-checkbox-container");
     classAdd(submitButton, "button");
     classAdd(submitButton, "submit-button");
+    classAdd(labelButton, "button");
+    classAdd(labelButton, "label-button");
     classAdd(markdownButton, "markdown-button");
     classAdd(textareaSuperContainer, "button-margin");
     classAdd(guestName, "guest-details");
@@ -725,6 +730,7 @@
       submitButton.innerText = i18n("Add Comment");
     }
     markdownButton.innerHTML = i18n("<b>M &#8595;</b> &nbsp; Markdown Help?");
+    labelButton.textContent = i18n("Add labels");
 
     if (anonymousOnly) {
       anonymousCheckbox.checked = true;
@@ -759,6 +765,9 @@
     append(anonymousCheckboxContainer, anonymousCheckbox);
     append(anonymousCheckboxContainer, anonymousCheckboxLabel);
     append(textareaSuperContainer, submitButton);
+    if (allowLabels) {
+      append(textareaSuperContainer, labelButton);
+    }
     if (!requireIdentification && edit !== true) {
       append(textareaSuperContainer, anonymousCheckboxContainer);
       append(guestNameContainer, guestName);
