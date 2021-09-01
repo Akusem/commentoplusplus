@@ -44,7 +44,7 @@ textarea {
   justify-content: center;
   align-items: center;
 
-  .commento-submit-button {
+  .commento-submit-button, .commento-label-button {
     transform: none;
   }
 }
@@ -65,6 +65,29 @@ textarea {
   text-transform: uppercase;
   font-size: 12px;
   margin-top: 10px;
+  transition: all 0.25s;
+
+  &:hover {
+    background: $blue-9;
+  }
+}
+
+.commento-label-button {
+  float: right;
+  background: $white;
+  color: $blue-8;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-top: 10px;
+  transition: all 0.25s;
+
+  &:hover {
+    background: $gray-0;
+  }
+
+  &:active {
+    background: $gray-4;
+  }
 }
 
 .commento-button-margin {
