@@ -56,12 +56,12 @@
   var ID_DOWNVOTE = "commento-comment-downvote-";
   var ID_APPROVE = "commento-comment-approve-";
   var ID_REMOVE = "commento-comment-remove-";
-  var ID_LABEL = "commento-comment-label";
-  var ID_LABEL_BUTTON = "commento-label-button";
-  var ID_LABEL_CHECK = "commento-comment-label-check";
-  var ID_LABEL_TOGGLE = "commento-comment-label-toggle";
-  var ID_LABEL_SELECTOR = "commento-comment-label-selector";
-  var ID_LABEL_CONTAINER = "commento-comment-label-container";
+  var ID_LABEL = "commento-comment-label-";
+  var ID_LABEL_BUTTON = "commento-label-button-";
+  var ID_LABEL_CHECK = "commento-comment-label-check-";
+  var ID_LABEL_TOGGLE = "commento-comment-label-toggle-";
+  var ID_LABEL_SELECTOR = "commento-comment-label-selector-";
+  var ID_LABEL_CONTAINER = "commento-comment-label-container-";
   var ID_STICKY = "commento-comment-sticky-";
   var ID_CHILDREN = "commento-comment-children-";
   var ID_CONTENTS = "commento-comment-contents-";
@@ -98,6 +98,8 @@
   // On each comment refresh the label selector is closed automaticaly
   // This store the opened label selector id, to keep them open.
   var labelSelectorOpen = []; 
+  // To stock labels assigned to new comment.
+  var newComment = { labelsHex: [] };
   //var chosenAnonymous = false;
   var isLocked = false;
   var stickyCommentHex = "none";
@@ -757,6 +759,9 @@
     } else {
       onclick(submitButton, submitAccountDecide, id);
     }
+    if (allowLabels) {
+      onclick(labelButton, global.toggleLabelSelector, "root");
+    }
     onclick(markdownButton, markdownHelpShow, id);
 
     append(textareaContainer, textarea);
@@ -767,6 +772,7 @@
     append(textareaSuperContainer, submitButton);
     if (allowLabels) {
       append(textareaSuperContainer, labelButton);
+      addLabelSelector(textareaSuperContainer, undefined, true);
     }
     if (!requireIdentification && edit !== true) {
       append(textareaSuperContainer, anonymousCheckboxContainer);
@@ -916,6 +922,7 @@
       "path": pageId,
       "parentHex": id,
       "markdown": markdown,
+      "labelsHex": newComment.labelsHex,
     };
 
     post(origin + "/api/comment/new", json, function(resp) {
@@ -937,12 +944,12 @@
       if(message !== "") {
         errorShow(message);
       }
-      
+
       var commenterHex = selfHex;
       if (commenterHex === undefined || commenterToken === "anonymous") {
         commenterHex = "anonymous";
       }
-      
+
       if (commenterHex === "anonymous" && !$(ID_ANONYMOUS_CHECKBOX + id).checked && $(ID_GUEST_DETAILS_INPUT + id) && $(ID_GUEST_DETAILS_INPUT + id).value.trim().length > 0) {
         commenterHex = id;
         commenters[id] = { provider: "anon", name: anonName, photo: "undefined", link: "" };
@@ -954,6 +961,7 @@
         "markdown": markdown,
         "html": resp.html,
         "parentHex": id,
+        "labelsHex": newComment.labelsHex,
         "score": 0,
         "state": "approved",
         "direction": 0,
@@ -988,8 +996,9 @@
       var y = $(ID_CARD + resp.commentHex).getBoundingClientRect().top + window.pageYOffset - 40;
       window.scrollTo({top: y, behavior: "smooth"});
       // window.location.hash = ID_CARD + resp.commentHex;
-      call(callback);
+      resetLabelSelectorRoot();
 
+      call(callback);
     });
   }
 
@@ -1081,15 +1090,27 @@
     },
   };
 
+
+  function resetLabelSelectorRoot() {
+    newComment.labelsHex.forEach(function(labelHex) {
+      var checkIcon = $(ID_LABEL_CHECK + labelHex + "root");
+      classAdd(checkIcon, "option-check-hidden");
+    })
+    newComment.labelsHex = [];
+  }
+
+
   function commentHasLabel(comment, labelHex) {
     return comment.labelsHex.indexOf(labelHex) >= 0;
   }
+
 
   function getLabelInfo(labelHex) {
     return labels.find(function(label) {
       return label.labelHex === labelHex
     });
   }
+
 
   function createLabel(parentEl, labelInfo, commentHex) {
     var label = create("div");
@@ -1099,6 +1120,7 @@
     attrSet(label, "style", "background: " + labelInfo.color);
     append(parentEl, label);
   }
+
 
   function commentAddLabel(comment, labelHex) {
     var json = {
@@ -1125,6 +1147,7 @@
       createLabel(labelsContainer, labelInfo, comment.commentHex)
     });
   }
+
 
   function commentRemoveLabel(comment, labelHex) {
     var json = {
@@ -1154,13 +1177,44 @@
     });
   }
 
+
+  function commentAddLabelRoot(labelHex) {
+    // Save change
+    newComment.labelsHex.push(labelHex);
+    // Display icon
+    var checkIcon = $(ID_LABEL_CHECK + labelHex + "root");
+    classRemove(checkIcon, "option-check-hidden");
+  }
+
+
+  function commentRemoveLabelRoot(labelHex) {
+    // Save change
+    var index = newComment.labelsHex.indexOf(labelHex);
+    if (index !== -1) {
+      newComment.labelsHex.splice(index, 1);
+    }
+    // Hide icon
+    var checkIcon = $(ID_LABEL_CHECK + labelHex + "root");
+    classAdd(checkIcon, "option-check-hidden");
+  }
+
+
   global.toggleLabel = function(info) {
-    if (commentHasLabel(info.comment, info.labelHex)) {
-      commentRemoveLabel(info.comment, info.labelHex);
+    if(!info.root) {
+      if (commentHasLabel(info.comment, info.labelHex)) {
+        commentRemoveLabel(info.comment, info.labelHex);
+      } else {
+        commentAddLabel(info.comment, info.labelHex);
+      }
     } else {
-      commentAddLabel(info.comment, info.labelHex);
+      if (commentHasLabel(newComment, info.labelHex)) {
+        commentRemoveLabelRoot(info.labelHex);
+      } else {
+        commentAddLabelRoot(info.labelHex);
+      }
     }
   }
+
 
   function isLabelSelectorOpen(id) {
     for (var i = 0; i < labelSelectorOpen.length; i++) {
@@ -1171,17 +1225,26 @@
     return false;
   }
 
-  function addLabelSelector(parentEl, comment) {
+
+  function addLabelSelector(parentEl, comment, root) {
     var selector = create("div");
     var title = create("span");
     var list = create("div");
 
-    selector.id = ID_LABEL_SELECTOR + comment.commentHex;
+    // Replace value if it's for the createComment labelSelector (named "root")
+    root = root === undefined ? false : true;
+    var selectorHex = root ? "root" : comment.commentHex;
+    comment = comment === undefined ? newComment : comment;
+
+    selector.id = ID_LABEL_SELECTOR + selectorHex;
     title.textContent = i18n("Labels");
-    
+
     classAdd(selector, "option-labels-selector");
-    if (!isLabelSelectorOpen(comment.commentHex)) {
+    if (!isLabelSelectorOpen(selectorHex)) {
       classAdd(selector, "hidden");
+    }
+    if (root) {
+      attrSet(selector, "style", "right: 210px;")
     }
     classAdd(title, "option-labels-selector-title");
 
@@ -1191,16 +1254,16 @@
       var checkIcon = create("span");
 
       label.textContent = labelInfo.name;
-      checkIcon.id = ID_LABEL_CHECK + labelInfo.labelHex + comment.commentHex;
+      checkIcon.id = ID_LABEL_CHECK + labelInfo.labelHex + selectorHex;
 
-      onclick(line, global.toggleLabel, {"comment": comment, "labelHex": labelInfo.labelHex});
+      onclick(line, global.toggleLabel, {"comment": comment, "labelHex": labelInfo.labelHex, "root": root});
 
       classAdd(list, "option-labels-list");
       classAdd(line, "option-labels-list-line");
       classAdd(label, "label");
       classAdd(checkIcon, "option-check");
       if (!commentHasLabel(comment, labelInfo.labelHex)) {
-        classAdd(checkIcon, "option-check-hidden")
+        classAdd(checkIcon, "option-check-hidden");
       }
       attrSet(label, "style", "background: " + labelInfo.color);
 
@@ -1213,6 +1276,7 @@
     append(selector, title);
     append(selector, list);
   }
+
 
   function addLabels(parentEl, comment) {
     var labelsContainer = create("div");
@@ -1228,6 +1292,7 @@
 
     append(parentEl, labelsContainer);
   }
+
 
   function commentsRecurse(parentMap, parentHex) {
     var cur = parentMap[parentHex];
@@ -1949,6 +2014,15 @@
 
 
   function submitAccountDecide(id) {
+    // Close root label selector if open
+    if (allowLabels) {
+      var selector = $(ID_LABEL_SELECTOR + "root");
+      if (!selector.className.includes("hidden")) {
+        removeToLabelSelectorOpen("root");
+        classAdd(selector, "hidden");
+      }
+    }
+
     if (requireIdentification) {
       submitAuthenticated(id);
       return;
