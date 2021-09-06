@@ -22,6 +22,22 @@ func commentLabelNew(commentHex string, labelHex string) error {
 	return nil
 }
 
+func commentListLabelNew(commentHex string, labelsHex []string) error {
+	if commentHex == "" || len(labelsHex) == 0 {
+		return errorMissingField
+	}
+
+	for _, labelHex := range labelsHex {
+		err := commentLabelNew(commentHex, labelHex)
+
+		if err != nil {
+			return errorCannotLinkLabel
+		}
+	}
+
+	return nil
+}
+
 func commentLabelNewHandler(w http.ResponseWriter, r *http.Request) {
 	type request struct {
 		CommenterToken *string `json:"commenterToken"`
