@@ -53,12 +53,13 @@ func commentNew(commenterHex string, domain string, path string, parentHex strin
 
 func commentNewHandler(w http.ResponseWriter, r *http.Request) {
 	type request struct {
-		CommenterToken *string `json:"commenterToken"`
-		AnonName       *string `json:"anonName"`
-		Domain         *string `json:"domain"`
-		Path           *string `json:"path"`
-		ParentHex      *string `json:"parentHex"`
-		Markdown       *string `json:"markdown"`
+		CommenterToken *string   `json:"commenterToken"`
+		AnonName       *string   `json:"anonName"`
+		Domain         *string   `json:"domain"`
+		Path           *string   `json:"path"`
+		ParentHex      *string   `json:"parentHex"`
+		Markdown       *string   `json:"markdown"`
+		LabelsHex      *[]string `json:"labelsHex"`
 	}
 
 	var x request
@@ -141,6 +142,13 @@ func commentNewHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		bodyMarshal(w, response{"success": false, "message": err.Error()})
 		return
+	}
+
+	if len(*x.LabelsHex) > 0 {
+		err := commentNewLabelsList(commentHex, *x.LabelsHex)
+		if err != nil {
+			bodyMarshal(w, response{"success": false, "message": err.Error()})
+		}
 	}
 
 	// TODO: reuse html in commentNew and do only one markdown to HTML conversion?
