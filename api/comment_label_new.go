@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-func commentLabelNew(commentHex string, labelHex string) error {
+func commentNewLabel(commentHex string, labelHex string) error {
 	if commentHex == "" || labelHex == "" {
 		return errorMissingField
 	}
@@ -22,13 +22,13 @@ func commentLabelNew(commentHex string, labelHex string) error {
 	return nil
 }
 
-func commentListLabelNew(commentHex string, labelsHex []string) error {
+func commentNewLabelsList(commentHex string, labelsHex []string) error {
 	if commentHex == "" || len(labelsHex) == 0 {
 		return errorMissingField
 	}
 
 	for _, labelHex := range labelsHex {
-		err := commentLabelNew(commentHex, labelHex)
+		err := commentNewLabel(commentHex, labelHex)
 
 		if err != nil {
 			return errorCannotLinkLabel
@@ -82,7 +82,7 @@ func commentLabelNewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = commentLabelNew(*x.CommentHex, *x.LabelHex); err != nil {
+	if err = commentNewLabel(*x.CommentHex, *x.LabelHex); err != nil {
 		bodyMarshal(w, response{"success": false, "message": err.Error()})
 		return
 	}
