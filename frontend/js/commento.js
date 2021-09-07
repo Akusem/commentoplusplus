@@ -760,7 +760,7 @@
       onclick(submitButton, submitAccountDecide, id);
     }
     if (allowLabels) {
-      onclick(labelButton, global.toggleLabelSelector, "root");
+      onclick(labelButton, global.toggleLabelSelector, id);
     }
     onclick(markdownButton, markdownHelpShow, id);
 
