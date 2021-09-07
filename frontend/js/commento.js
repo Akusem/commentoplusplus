@@ -732,7 +732,7 @@
       submitButton.innerText = i18n("Add Comment");
     }
     markdownButton.innerHTML = i18n("<b>M &#8595;</b> &nbsp; Markdown Help?");
-    labelButton.textContent = i18n("Add labels");
+    labelButton.textContent = i18n("Add Labels");
 
     if (anonymousOnly) {
       anonymousCheckbox.checked = true;
