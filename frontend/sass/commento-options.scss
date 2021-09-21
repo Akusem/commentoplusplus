@@ -174,14 +174,20 @@
 
 .commento-option-label-container {
   position: absolute;
-  // Each of the 6 options icons are around 30px width,
-  // place the label-container just after 
-  // !important override the automatic inline right 
-  // (don't know how to disable it) 
-  right: calc(32px * 6) !important;
   display: flex;
+
+  // When the labelSelector is available, need to overwrite position
+  // as the labels are placed after an invisible element
+  &.commento-option-authenticated {
+    // Each of the 6 options icons (when logged) are around 30px width,
+    // place the label-container just after 
+    // !important override the automatic inline right 
+    // (don't know how to disable it) 
+    right: calc(32px * 6) !important;
+  }
 
   .commento-label {
     margin: 10px 2px;
   }
 }
+

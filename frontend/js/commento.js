@@ -1282,6 +1282,11 @@
     var labelsContainer = create("div");
     labelsContainer.id = ID_LABEL_CONTAINER + comment.commentHex;
     classAdd(labelsContainer, "option-label-container");
+    // More icons in option are added when authenticated
+    // Add class to ensure that the labels are correctly positioned
+    if (isAuthenticated) {
+      classAdd(labelsContainer, "option-authenticated");
+    }
 
     labels.forEach(function(labelInfo) {
       if (!commentHasLabel(comment, labelInfo.labelHex)) {
@@ -1527,6 +1532,9 @@
       if (!comment.deleted && allowLabels && (isModerator || comment.commenterHex === selfHex)) {
         append(options, labelToggle);
         addLabelSelector(options, comment);
+      }
+
+      if (!comment.deleted && allowLabels) {
         addLabels(options, comment);
       }
 
