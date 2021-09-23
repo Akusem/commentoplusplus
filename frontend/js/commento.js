@@ -1215,6 +1215,16 @@
     }
   }
 
+  function closeLabelSelector(id) {
+    if (allowLabels) {
+      var selector = $(ID_LABEL_SELECTOR + id);
+      if (!selector.className.includes("hidden")) {
+        removeToLabelSelectorOpen(id);
+        classAdd(selector, "hidden");
+      }
+    }
+  }
+
 
   function isLabelSelectorOpen(id) {
     for (var i = 0; i < labelSelectorOpen.length; i++) {
@@ -1751,6 +1761,8 @@
 
 
   function commentEdit(id) {
+    closeLabelSelector(id);
+
     var textarea = $(ID_TEXTAREA + id);
 
     var markdown = textarea.value;
@@ -2022,14 +2034,7 @@
 
 
   function submitAccountDecide(id) {
-    // Close root label selector if open
-    if (allowLabels) {
-      var selector = $(ID_LABEL_SELECTOR + "root");
-      if (!selector.className.includes("hidden")) {
-        removeToLabelSelectorOpen("root");
-        classAdd(selector, "hidden");
-      }
-    }
+    closeLabelSelector(id);
 
     if (requireIdentification) {
       submitAuthenticated(id);
