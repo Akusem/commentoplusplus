@@ -45,13 +45,11 @@
   };
 
   global.openLabelCreator = function() {
-    $("#add-new-label").hide()
     $("#label-creator").show()
   }
 
   global.closeLabelCreator = function() {
     $("#label-creator").hide()
-    $("#add-new-label").show()
   }
 
   global.setAllLabels = function() {
