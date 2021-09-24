@@ -905,6 +905,7 @@
 
     if (markdown === "") {
       classAdd(textarea, "red-border");
+      $(ID_SUBMIT_BUTTON + id).disabled = false; // Fix impossibility to submit comment after trying to post an empty one
       return;
     } else {
       classRemove(textarea, "red-border");
