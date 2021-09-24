@@ -423,7 +423,7 @@
                       </div>
                       <div class="row no-border" v-if="domains[cd].allowLabels">
                         <div class="comment-labels-list" id="labels-list"> 
-                          <span class="comment-labels-list-title">Labels</span>
+                          <span class="comment-labels-list-title">Labels <span class="modal-plus" v-on:click="window.commento.openLabelCreator()"></span></span>
                           <div class="comment-labels-list-body" v-if="domains[cd].labelsAll !== undefined && domains[cd].labelsAll.length > 0">
                             <div class="comment-labels-list-line" v-for="label in domains[cd].labelsAll">
                               <span class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</span>
@@ -431,9 +431,6 @@
                             </div>
                           </div>
                         </div>
-                        <button class="button" style="margin-left: 100px;" id="add-new-label" v-on:click="window.commento.openLabelCreator()">
-                          Add new Labels
-                        </button>
                         <div class="label-creator hidden" id="label-creator">
                           <div class="left">
                             <div class="title">Label Creator</div>
