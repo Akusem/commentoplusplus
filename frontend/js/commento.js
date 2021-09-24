@@ -460,6 +460,7 @@
 
     attrSet(a, "href", "https://github.com/souramoo/commentoplusplus");
     attrSet(a, "target", "_blank");
+    attrSet(a, "rel", "noreferrer");
 
     text.innerText = "Commento++";
 
@@ -1414,7 +1415,7 @@
       contents.id = ID_CONTENTS + comment.commentHex;
       name.id = ID_NAME + comment.commentHex;
       permalink.href = "#commento-" + comment.commentHex;
-      permalink.innerText = "permalink";
+      permalink.innerText = i18n("permalink");
       permalink.onclick = function() {
         window.location.hash = "#commento-" + comment.commentHex; loadHash(); commentsRender(); 
       }
@@ -2779,6 +2780,7 @@
   global.reInit = function(options) {
     pageId = options.pageId || pageId;
     ID_ROOT = options.idRoot || ID_ROOT;
+    root = $(ID_ROOT);
     noFonts = options.noFonts || noFonts;
     hideDeleted = options.hideDeleted || hideDeleted;
     cssOverride = options.cssOverride || cssOverride;
