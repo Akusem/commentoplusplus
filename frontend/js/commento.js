@@ -1310,6 +1310,37 @@
   }
 
 
+  function closeLabelSelectorOnOutsideClick() {
+    document.onclick = function(e) {
+      if (labelSelectorOpen.length === 0) {
+        return
+      }
+
+      // Doesn't close labelSelector when trying to open them
+      // Or when clicking inside
+      if (e.target.id.startsWith("commento-label-button") 
+        || e.target.id.startsWith("commento-comment-label-toggle")
+        || e.target.className.includes("commento-option-labels-selector-title")
+        || e.target.className.includes("commento-option-labels-list")
+        || e.target.className.includes("commento-option-labels-list-line")
+        || e.target.className.includes("commento-option-check")
+        || e.target.className.includes("commento-label")
+      ) {
+        return
+      }
+
+      // Make a deep copy of labelSelectorOpen as closeLabelSelector modify it
+      var localLabelSelectorOpen = JSON.parse(JSON.stringify(labelSelectorOpen));
+      for (var i = 0; i < localLabelSelectorOpen.length; i++) {
+        var openSelectorId = ID_LABEL_SELECTOR + localLabelSelectorOpen[i];
+        if(e.target.id !== openSelectorId) {
+          closeLabelSelector(localLabelSelectorOpen[i]);
+        }
+      }
+    }
+  }
+
+
   function commentsRecurse(parentMap, parentHex) {
     var cur = parentMap[parentHex];
     if (!cur || !cur.length) {
@@ -2717,6 +2748,8 @@
 
     mainAreaCreate();
     modToolsCreate();
+
+    closeLabelSelectorOnOutsideClick();
 
     var footer = footerLoad();
     cssLoad(cdn + "/css/commento.css", loadCssOverride);
