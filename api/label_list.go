@@ -52,8 +52,7 @@ func labelListAll(domain string) ([]label, error) {
 
 func labelListAllHandler(w http.ResponseWriter, r *http.Request) {
 	type request struct {
-		OwnerToken *string `json:"ownerToken"`
-		Domain     *string `json:"domain"`
+		Domain *string `json:"domain"`
 	}
 
 	var x request
@@ -62,24 +61,7 @@ func labelListAllHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	o, err := ownerGetByOwnerToken(*x.OwnerToken)
-	if err != nil {
-		bodyMarshal(w, response{"success": false, "message": err.Error()})
-		return
-	}
-
 	domain := domainStrip(*x.Domain)
-	isOwner, err := domainOwnershipVerify(o.OwnerHex, domain)
-	if err != nil {
-		bodyMarshal(w, response{"success": false, "message": err.Error()})
-		return
-	}
-
-	if !isOwner {
-		bodyMarshal(w, response{"success": false, "message": errorNotAuthorised.Error()})
-		return
-	}
-
 	labels, err := labelListAll(domain)
 	if err != nil {
 		bodyMarshal(w, response{"success": false, "message": err.Error()})
