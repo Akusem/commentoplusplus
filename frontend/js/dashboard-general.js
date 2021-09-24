@@ -60,10 +60,9 @@
 
     if (data.domains[data.cd].allowLabels) {
       var json = {
-        "ownerToken": global.cookieGet("commentoOwnerToken"),
         "domain": data.domains[data.cd].domain
       };
-      global.post(global.origin + "/api/label/owner/listAll", json, function(resp) {
+      global.post(global.origin + "/api/label/listAll", json, function(resp) {
         if (!resp.success) {
           global.globalErrorShow(resp.message);
           return
