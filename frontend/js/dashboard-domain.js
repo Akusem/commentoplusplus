@@ -97,6 +97,10 @@
         // Define the default fields to be used by label creator in dashboard > general
         resp.domains[i].newLabelName = "";
         resp.domains[i].newLabelColor = "#44ad8e";
+        // Define the fields to be used by label editor in dashboard > general
+        resp.domains[i].editLabelHex = "";
+        resp.domains[i].editLabelName = "";
+        resp.domains[i].editLabelColor = "#44ad8e";
         // Use to pass labelHex to delete modal
         resp.domains[i].labelHexToDelete = "";
 
