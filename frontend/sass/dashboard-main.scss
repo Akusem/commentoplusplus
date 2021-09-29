@@ -914,11 +914,22 @@ code {
 .label-delete-button {
   color: $red-5;
   margin: 0 1em;
+  min-width: 50px;
 }
 
 .label-delete-button:hover {
   color: $white;
   background-color: $red-7;
+}
+
+.label-edit-button {
+  margin: 0 1em;
+  min-width: 50px;
+}
+
+.label-edit-button:hover {
+  color: $white;
+  background-color: $blue-7;
 }
 
 // End Label
