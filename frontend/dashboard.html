@@ -427,10 +427,14 @@
                           <div class="comment-labels-list-body" v-if="domains[cd].labelsAll !== undefined && domains[cd].labelsAll.length > 0">
                             <div class="comment-labels-list-line" v-for="label in domains[cd].labelsAll">
                               <span class="comment-label" v-bind:style="{background: label.color}">{{ label.name }}</span>
-                              <button class="button label-delete-button" v-on:click="window.commento.openDeleteLabelModal(label.labelHex)">Delete</button>
+                              <span>
+                                <button class="button label-edit-button" v-on:click="window.commento.openLabelEditor(label)">Edit</button>
+                                <button class="button label-delete-button" v-on:click="window.commento.openDeleteLabelModal(label.labelHex)">Delete</button>
+                              </span>
                             </div>
                           </div>
                         </div>
+                        <!-- Label Creator -->
                         <div class="label-creator hidden" id="label-creator">
                           <div class="left">
                             <div class="title">Label Creator</div>
@@ -449,6 +453,26 @@
                             <button class="button center" v-on:click="window.commento.createLabel()">Create Label</button>
                           </div>
                           <span class="right-top modal-close" id="close-label-creator" v-on:click="window.commento.closeLabelCreator()"></span>
+                        </div>
+                        <!-- Label Editor -->
+                        <div class="label-creator hidden" id="label-editor">
+                          <div class="left">
+                            <div class="title">Label Editor</div>
+                            <div class="row">
+                              <label for="edit-label-name" class="label">
+                                Label Name
+                              </label>
+                              <input class="input" v-model="domains[cd].editLabelName" type="text" name="edit-label-name" id="edit-label-name">
+                            </div>
+                            <div class="color-picker">
+                              <label class="label" for="edit-label-color">Label Color:</label>
+                              <input class="input" type="color" v-model="domains[cd].editLabelColor" id="edit-label-color" name="edit-label-color"> 
+                            </div>
+                          </div>
+                          <div class="center">
+                            <button class="button center" v-on:click="window.commento.editLabel()">Edit Label</button>
+                          </div>
+                          <span class="right-top modal-close" id="close-label-editor" v-on:click="window.commento.closeLabelEditor()"></span>
                         </div>
                       </div>
                     </div>
