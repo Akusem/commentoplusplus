@@ -1117,7 +1117,7 @@
   function createLabel(parentEl, labelInfo, commentHex) {
     var label = create("div");
     classAdd(label, "label");
-    label.id = ID_LABEL + labelInfo.labelHex + commentHex
+    label.id = ID_LABEL + labelInfo.labelHex + commentHex;
     label.textContent = labelInfo.name;
     attrSet(label, "style", "background: " + labelInfo.color);
     append(parentEl, label);
@@ -1145,8 +1145,8 @@
       classRemove(checkIcon, "option-check-hidden");
       // Add label
       var labelInfo = getLabelInfo(labelHex);
-      var labelsContainer = $(ID_LABEL_CONTAINER + comment.commentHex)
-      createLabel(labelsContainer, labelInfo, comment.commentHex)
+      var labelsContainer = $(ID_LABEL_CONTAINER + comment.commentHex);
+      createLabel(labelsContainer, labelInfo, comment.commentHex);
     });
   }
 
@@ -1256,7 +1256,7 @@
       classAdd(selector, "hidden");
     }
     if (root) {
-      attrSet(selector, "style", "right: 210px;")
+      attrSet(selector, "style", "right: 210px;");
     }
     classAdd(title, "option-labels-selector-title");
 
@@ -1304,7 +1304,7 @@
       if (!commentHasLabel(comment, labelInfo.labelHex)) {
         return;
       }
-      createLabel(labelsContainer, labelInfo, comment.commentHex)
+      createLabel(labelsContainer, labelInfo, comment.commentHex);
     });
 
     append(parentEl, labelsContainer);
