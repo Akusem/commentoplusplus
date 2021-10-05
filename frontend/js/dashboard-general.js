@@ -107,6 +107,9 @@
         global.globalErrorShow(resp.message);
         return
       }
+      // Reset label creator to default value
+      data.domains[data.cd].newLabelName = "";
+      data.domains[data.cd].newLabelColor = "#44ad8e";
 
       global.closeLabelCreator();
       global.setAllLabels();
