@@ -46,6 +46,8 @@
 
   global.openLabelCreator = function() {
     $("#label-creator").show()
+    // Move to the label creator
+    document.location.hash = "#label-creator"
     // Avoid having label Creator & Editor open at the same time
     global.closeLabelEditor()
   }
@@ -56,11 +58,13 @@
 
   global.openLabelEditor = function(label) {
     var data = global.dashboard.$data
-    // Set label Editor to label of interest value
+    // Set label Editor values
     data.domains[data.cd].editLabelHex = label.labelHex;
     data.domains[data.cd].editLabelName = label.name;
     data.domains[data.cd].editLabelColor = label.color;
     $("#label-editor").show()
+    // Move to the label editor
+    document.location.hash = "#label-editor"
     // Avoid having label Creator & Editor open at the same time
     global.closeLabelCreator()
   }
